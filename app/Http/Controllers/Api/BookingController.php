@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
+    // Membuat booking baru setelah validasi jadwal dan ketersediaan slot.
     public function store(Request $request): JsonResponse
     {
         $maksTanggal = now()->addDays(3)->toDateString();
@@ -81,6 +82,7 @@ class BookingController extends Controller
         ], 201);
     }
 
+    // Mengambil riwayat booking milik user yang sedang login.
     public function history(): JsonResponse
     {
         Booking::finalizeExpiredConfirmed();
@@ -94,6 +96,7 @@ class BookingController extends Controller
         return response()->json($bookings);
     }
 
+    // Membatalkan booking user jika masih bisa diubah.
     public function cancel(Request $request, int $id): JsonResponse
     {
         $booking = Booking::query()

@@ -11,6 +11,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    // Mengambil data user yang terautentikasi.
     public function me(): JsonResponse
     {
         return response()->json([
@@ -18,6 +19,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // Mendaftarkan user baru dan mengembalikan token login.
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -46,6 +48,7 @@ class AuthController extends Controller
         ], 201);
     }
 
+    // Memverifikasi kredensial user dan membuat token JWT.
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
@@ -68,6 +71,7 @@ class AuthController extends Controller
         ]);
     }
 
+    // Mengakhiri sesi API dengan menginvalidasi token aktif.
     public function logout(): JsonResponse
     {
         $token = JWTAuth::getToken();

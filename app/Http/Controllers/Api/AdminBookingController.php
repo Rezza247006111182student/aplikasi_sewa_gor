@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class AdminBookingController extends Controller
 {
+    // Mengambil ringkasan statistik utama untuk dashboard admin.
     public function stats(): JsonResponse
     {
         Booking::finalizeExpiredConfirmed();
@@ -31,6 +32,7 @@ class AdminBookingController extends Controller
         ]);
     }
 
+    // Mengambil daftar booking admin dengan filter status opsional.
     public function index(Request $request): JsonResponse
     {
         Booking::finalizeExpiredConfirmed();
@@ -44,6 +46,7 @@ class AdminBookingController extends Controller
         return response()->json($query->latest()->get());
     }
 
+    // Memperbarui status booking sesuai aturan bisnis admin.
     public function updateStatus(Request $request, int $id): JsonResponse
     {
         $validated = $request->validate([

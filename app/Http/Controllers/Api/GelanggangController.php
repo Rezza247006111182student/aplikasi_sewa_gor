@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class GelanggangController extends Controller
 {
+    // Mengambil daftar gelanggang dengan filter opsional.
     public function index(Request $request): JsonResponse
     {
         $query = Gelanggang::query()->with(['images', 'jadwalOperasional']);
@@ -27,6 +28,7 @@ class GelanggangController extends Controller
         return response()->json($query->latest()->get());
     }
 
+    // Mengambil detail satu gelanggang beserta relasinya.
     public function show(int $id): JsonResponse
     {
         $gelanggang = Gelanggang::with(['images', 'jadwalOperasional'])->findOrFail($id);
@@ -34,6 +36,7 @@ class GelanggangController extends Controller
         return response()->json($gelanggang);
     }
 
+    // Mengambil jadwal operasional dan slot booking pada tanggal tertentu.
     public function jadwal(Request $request, int $id): JsonResponse
     {
         $gelanggang = Gelanggang::with('jadwalOperasional')->findOrFail($id);
@@ -67,6 +70,7 @@ class GelanggangController extends Controller
         ]);
     }
 
+    // Menyimpan data gelanggang baru lengkap dengan galeri dan jadwal.
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -103,6 +107,7 @@ class GelanggangController extends Controller
         return response()->json($gelanggang->load(['images', 'jadwalOperasional']), 201);
     }
 
+    // Memperbarui data gelanggang, gambar, dan jadwal operasionalnya.
     public function update(Request $request, int $id): JsonResponse
     {
         $gelanggang = Gelanggang::findOrFail($id);
@@ -163,6 +168,7 @@ class GelanggangController extends Controller
         return response()->json($gelanggang->load(['images', 'jadwalOperasional']));
     }
 
+    // Menghapus gelanggang beserta file gambar dan data terkait.
     public function destroy(int $id): JsonResponse
     {
         $gelanggang = Gelanggang::with('images')->findOrFail($id);
@@ -182,6 +188,7 @@ class GelanggangController extends Controller
         ]);
     }
 
+    // Menyinkronkan data jadwal operasional ke tabel terkait.
     private function syncJadwal(Gelanggang $gelanggang, mixed $jadwal): void
     {
         if (is_string($jadwal)) {
@@ -212,6 +219,7 @@ class GelanggangController extends Controller
         }
     }
 
+    // Mengubah input fasilitas menjadi array yang bersih dan konsisten.
     private function resolveFasilitas(mixed $fasilitas): ?array
     {
         if (is_array($fasilitas)) {
@@ -230,6 +238,7 @@ class GelanggangController extends Controller
         return array_values(array_filter(array_map('trim', explode(',', $fasilitas))));
     }
 
+    // Menyimpan foto utama baru atau menerima URL yang dikirim dari request.
     private function resolveFotoUtama(Request $request): ?string
     {
         if ($request->hasFile('foto_utama') && $request->file('foto_utama')->isValid()) {
@@ -245,6 +254,7 @@ class GelanggangController extends Controller
         return null;
     }
 
+    // Menghapus file gambar dari storage jika berasal dari disk publik.
     private function deleteStoredImage(?string $url): void
     {
         if (!$url || !str_starts_with($url, '/storage/')) {
