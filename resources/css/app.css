@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+:root {
+    --bg-base: #f6f4ef;
+    --bg-accent: #f1ead8;
+    --ink: #1f2937;
+    --ink-soft: #4b5563;
+    --brand: #0f766e;
+    --brand-strong: #115e59;
+    --gold: #c69214;
+}
+
+body {
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 20% 10%, rgba(198, 146, 20, 0.18), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(15, 118, 110, 0.14), transparent 25%),
+        linear-gradient(180deg, var(--bg-base), #ffffff 45%, var(--bg-accent));
+    min-height: 100vh;
+}
+
+.glass-panel {
+    @apply rounded-2xl border border-white/60 bg-white/70 shadow-lg backdrop-blur;
+}
+
+.btn-brand {
+    @apply rounded-xl bg-teal-700 px-4 py-2 font-semibold text-white transition hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300 focus-visible:ring-offset-2;
+}
+
+.btn-muted {
+    @apply rounded-xl border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300 focus-visible:ring-offset-2;
+}
+
+.auth-shell {
+    @apply mx-auto grid max-w-5xl overflow-hidden rounded-3xl border border-white/60 bg-white/70 shadow-2xl backdrop-blur lg:grid-cols-2;
+}
+
+.auth-stage {
+    @apply flex min-h-[78vh] items-center;
+}
+
+.auth-panel {
+    @apply flex flex-col justify-center bg-white/85 p-8 sm:p-10;
+}
+
+.auth-input {
+    @apply w-full rounded-xl border border-slate-300 px-3 py-2;
+}
+
+.auth-switch-link {
+    @apply font-semibold text-teal-700 hover:text-teal-800;
+}
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.36);
+    backdrop-filter: blur(6px);
+}
+
+.loading-overlay:not(.hidden) {
+    display: flex;
+}
+
+.loading-card {
+    display: flex;
+    min-width: 200px;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+}
+
+.loading-spinner {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 4px solid rgba(15, 118, 110, 0.18);
+    border-top-color: var(--brand);
+    animation: app-loading-spin 0.8s linear infinite;
+}
+
+.loading-text {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+@keyframes app-loading-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
